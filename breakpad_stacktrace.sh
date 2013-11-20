@@ -1,10 +1,16 @@
 #!/bin/bash
 
-MAIN_PATH=/tmp/$1_tmp
+APK_PATH=$1
+regex=".+\\/([^\/]+\.apk)$"
+[[ $APK_PATH =~ $regex ]]
+APK_FILE="${BASH_REMATCH[1]}"
+echo $APK_FILE
+
+MAIN_PATH=/tmp/$APK_FILE._tmp
 mkdir $MAIN_PATH
-cp -rf $1 $MAIN_PATH
+cp -rf $APK_PATH $MAIN_PATH
 pushd $MAIN_PATH
-cd $MAIN_PATH && unzip $1
+cd $MAIN_PATH && unzip $APK_FILE
 
 SO_LIBS=`find . -name *.so`
 
